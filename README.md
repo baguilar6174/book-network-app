@@ -26,6 +26,7 @@ This command create a local volumen in root project to save data.
 ### Built with
 
 - Spring Boot
+- Postgresql
 - 
 
 ### What I learned
