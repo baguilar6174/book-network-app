@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  postgres-db:
+    container_name: postgres-sql-bsn
+    image: postgres
+    restart: 'no'
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_DB: db_bsn
+      POSTGRES_PASSWORD: 123456
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
