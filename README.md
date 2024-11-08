@@ -1,6 +1,6 @@
 # Book Network App
 
-...
+Book Social Network is a comprehensive full-stack application that allows users to manage their personal book collections and connect with a community of fellow book enthusiasts. Key features include user registration with secure email verification, book management capabilities (such as creating, updating, sharing, and archiving books), borrowing and returning books with availability checks, and the approval of book returns. The application prioritizes security with JWT token-based authentication and follows REST API design best practices.
 
 ## Installation
 
