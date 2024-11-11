@@ -26,16 +26,19 @@ This command create a local volumen in root project to save data.
 ### Built with
 
 - Spring Boot
+- Spring Security
 - Postgresql
 - 
 
 ### What I learned
 
+- Manage authentication and authorization using Spring Security
 - 
 
 ## Development Features
 
-- Clean Architecture
+- Clean Architecture (pending)
+- 
 
 ## Improves
 
