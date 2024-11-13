@@ -33,7 +33,7 @@ This command create a local volumen in root project to save data.
 ### What I learned
 
 - Manage authentication and authorization using Spring Security
-- 
+- Spring Security architecture (with username and password) or include JWT
 
 ## Development Features
 
