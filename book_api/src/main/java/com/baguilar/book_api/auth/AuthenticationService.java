@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +26,8 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .accountLocked(false)
-                .enabled(false)
-                .roles(List.of(userRole))
+                .isEnabled(false)
+                .roles(Set.of(userRole))
                 .build();
         userRepository.save(user);
         // TODO: generate token

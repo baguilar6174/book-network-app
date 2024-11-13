@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +14,8 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -24,28 +24,47 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tbl_user")
-@EntityListeners((AuditingEntityListener.class))
+@Table(name = "tbl_users")
 public class User implements UserDetails, Principal {
 
     @Id
     @GeneratedValue
     private Integer id;
+
     private String firstname;
+
     private String lastname;
+
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
+
     @Column(unique = true)
     private String email;
+
     private String password;
+
+    @Column(name = "is_enabled")
+    private boolean isEnabled;
+
+    @Column(name = "account_no_expired")
+    private boolean accountNoExpired;
+
+    @Column(name = "account_locked")
     private boolean accountLocked;
-    private boolean enabled;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Role> roles;
+
+    @Column(name = "credential_no_expired")
+    private boolean credentialNoExpired;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
     @CreatedDate
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, name = "created_date")
     private LocalDateTime createdDate;
+
     @LastModifiedDate
-    @Column(insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false, name = "last_modified_date")
     private LocalDateTime lastModifiedDate;
 
     @Override
@@ -86,7 +105,7 @@ public class User implements UserDetails, Principal {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return isEnabled;
     }
 
     private String getFullName() {

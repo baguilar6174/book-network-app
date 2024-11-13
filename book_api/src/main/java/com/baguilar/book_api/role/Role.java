@@ -1,15 +1,11 @@
 package com.baguilar.book_api.role;
 
-import com.baguilar.book_api.user.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -17,23 +13,22 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tbl_role")
-@EntityListeners((AuditingEntityListener.class))
+@Table(name = "tbl_roles")
+// @EntityListeners((AuditingEntityListener.class))
 public class Role {
 
     @Id
     @GeneratedValue
     private Integer id;
+
     @Column(unique = true)
     private String name;
-    @ManyToMany(mappedBy = "roles")
-    @JsonIgnore
-    private List<User> user;
 
     @CreatedDate
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, name = "created_date")
     private LocalDateTime createdDate;
+
     @LastModifiedDate
-    @Column(insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false, name = "last_modified_date")
     private LocalDateTime lastModifiedDate;
 }
