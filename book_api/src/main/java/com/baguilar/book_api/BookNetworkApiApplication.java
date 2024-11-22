@@ -23,7 +23,7 @@ public class BookNetworkApiApplication {
 	}
 
 	// Populate our database
-	@Bean
+	/* @Bean
 	CommandLineRunner init(UserRepository userRepository) {
 		return args -> {
 			// Create roles
@@ -61,6 +61,6 @@ public class BookNetworkApiApplication {
 
 			userRepository.saveAll(List.of(admin, user));
 		};
-	}
+	}*/
 
 }
