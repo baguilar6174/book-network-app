@@ -1,14 +1,11 @@
-package com.baguilar.book_api.role;
+package com.baguilar.book_api.permission;
 
-import com.baguilar.book_api.permission.Permission;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -16,20 +13,15 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tbl_roles")
-public class Role {
+@Table(name = "tbl_permissions")
+public class Permission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    @Enumerated(EnumType.STRING)
-    private RoleEnum roleEnum;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "tbl_role_permissions", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
-    private Set<Permission> permissions = new HashSet<>();
+    @Column(unique = true, nullable = false, updatable = false)
+    private String name;
 
     @CreatedDate
     @Column(nullable = false, updatable = false, name = "created_date")

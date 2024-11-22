@@ -1,7 +1,9 @@
 package com.baguilar.book_api;
 
+import com.baguilar.book_api.permission.Permission;
 import com.baguilar.book_api.role.Role;
-import com.baguilar.book_api.user.User;
+import com.baguilar.book_api.role.RoleEnum;
+import com.baguilar.book_api.user.UserEntity;
 import com.baguilar.book_api.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,20 +25,24 @@ public class BookNetworkApiApplication {
 	}
 
 	// Populate our database
-	/* @Bean
+	@Bean
 	CommandLineRunner init(UserRepository userRepository) {
 		return args -> {
+			// Create permissions
+			Permission createPermission = Permission.builder().name("CREATE").createdDate(LocalDateTime.now()).build();
+			Permission readPermission = Permission.builder().name("READ").createdDate(LocalDateTime.now()).build();
+
 			// Create roles
-			Role roleAdmin = Role.builder().name("ADMIN").createdDate(LocalDateTime.now()).build();
-			Role roleUser = Role.builder().name("USER").createdDate(LocalDateTime.now()).build();
+			Role roleAdmin = Role.builder().roleEnum(RoleEnum.ADMIN).permissions(Set.of(createPermission, readPermission)).createdDate(LocalDateTime.now()).build();
+			Role roleUser = Role.builder().roleEnum(RoleEnum.USER).permissions(Set.of(readPermission)).createdDate(LocalDateTime.now()).build();
 
 			// Create users
-			User admin = User.builder()
+			UserEntity admin = UserEntity.builder()
 					.firstname("Bryan")
 					.lastname("Aguilar")
 					.dateOfBirth(LocalDate.of(1996, 5, 6))
 					.email("admin@test.com")
-					.password("$2a$10$uhM4jkZWSe9hzCPsdAT/ouERrvlqMv3A1Wv9hUAJj/oPk3cRH7o3W")
+					.password("$2a$10$uhM4jkZWSe9hzCPsdAT/ouERrvlqMv3A1Wv9hUAJj/oPk3cRH7o3W") // 123456
 					.isEnabled(true)
 					.accountNoExpired(true)
 					.accountLocked(true)
@@ -45,12 +51,12 @@ public class BookNetworkApiApplication {
 					.createdDate(LocalDateTime.now())
 					.build();
 
-			User user = User.builder()
+			UserEntity user = UserEntity.builder()
 					.firstname("Alexander")
 					.lastname("Yaguana")
 					.dateOfBirth(LocalDate.of(1996, 5, 6))
 					.email("user@test.com")
-					.password("$2a$10$uhM4jkZWSe9hzCPsdAT/ouERrvlqMv3A1Wv9hUAJj/oPk3cRH7o3W")
+					.password("$2a$10$uhM4jkZWSe9hzCPsdAT/ouERrvlqMv3A1Wv9hUAJj/oPk3cRH7o3W") // 123456
 					.isEnabled(true)
 					.accountNoExpired(true)
 					.accountLocked(true)
@@ -61,6 +67,6 @@ public class BookNetworkApiApplication {
 
 			userRepository.saveAll(List.of(admin, user));
 		};
-	}*/
+	}
 
 }
