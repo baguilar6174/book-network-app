@@ -14,13 +14,19 @@ import java.time.LocalDateTime;
 public class Token {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(unique = true)
     private String token;
+
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "expires_at")
     private LocalDateTime expiresAt;
+
+    @Column(name = "validate_at")
     private LocalDateTime validatedAt;
 
     @ManyToOne
