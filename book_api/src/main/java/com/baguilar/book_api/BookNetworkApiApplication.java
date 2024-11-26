@@ -9,7 +9,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,7 +16,6 @@ import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
-@EnableJpaAuditing
 public class BookNetworkApiApplication {
 
 	public static void main(String[] args) {
@@ -45,7 +43,7 @@ public class BookNetworkApiApplication {
 					.password("$2a$10$uhM4jkZWSe9hzCPsdAT/ouERrvlqMv3A1Wv9hUAJj/oPk3cRH7o3W") // 123456
 					.isEnabled(true)
 					.accountNoExpired(true)
-					.accountLocked(true)
+					.accountLocked(false)
 					.credentialNoExpired(true)
 					.roles(Set.of(roleAdmin))
 					.createdDate(LocalDateTime.now())
@@ -59,7 +57,7 @@ public class BookNetworkApiApplication {
 					.password("$2a$10$uhM4jkZWSe9hzCPsdAT/ouERrvlqMv3A1Wv9hUAJj/oPk3cRH7o3W") // 123456
 					.isEnabled(true)
 					.accountNoExpired(true)
-					.accountLocked(true)
+					.accountLocked(false)
 					.credentialNoExpired(true)
 					.roles(Set.of(roleUser))
 					.createdDate(LocalDateTime.now())
