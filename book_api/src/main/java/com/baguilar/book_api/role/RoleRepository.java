@@ -1,9 +1,11 @@
 package com.baguilar.book_api.role;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
+@Repository
 public interface RoleRepository extends CrudRepository<Role, Long> {
-    // Optional<Role> findByName(String name);
+    List<Role> findRoleByRoleEnumIn(List<String> roleNames);
 }
