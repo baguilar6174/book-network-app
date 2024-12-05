@@ -18,3 +18,4 @@ application:
     jwt:
       secret-key: Br14nAgu1l4R
       expiration: 8640000
+      user-generator: AUTH0JWT-BACKEND
