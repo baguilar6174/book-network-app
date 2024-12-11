@@ -46,8 +46,8 @@ public class UserEntity implements UserDetails, Principal {
     @Column(name = "account_no_expired")
     private boolean accountNoExpired;
 
-    @Column(name = "account_locked")
-    private boolean accountLocked;
+    @Column(name = "account_no_locked")
+    private boolean accountNoLocked;
 
     @Column(name = "credential_no_expired")
     private boolean credentialNoExpired;
@@ -99,7 +99,7 @@ public class UserEntity implements UserDetails, Principal {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !accountLocked;
+        return !accountNoLocked;
     }
 
     @Override

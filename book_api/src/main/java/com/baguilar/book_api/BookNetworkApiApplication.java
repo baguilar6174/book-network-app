@@ -43,7 +43,7 @@ public class BookNetworkApiApplication {
 					.password("$2a$10$uhM4jkZWSe9hzCPsdAT/ouERrvlqMv3A1Wv9hUAJj/oPk3cRH7o3W") // 123456
 					.isEnabled(true)
 					.accountNoExpired(true)
-					.accountLocked(false)
+					.accountNoLocked(false)
 					.credentialNoExpired(true)
 					.roles(Set.of(roleAdmin))
 					.createdDate(LocalDateTime.now())
@@ -57,7 +57,7 @@ public class BookNetworkApiApplication {
 					.password("$2a$10$uhM4jkZWSe9hzCPsdAT/ouERrvlqMv3A1Wv9hUAJj/oPk3cRH7o3W") // 123456
 					.isEnabled(true)
 					.accountNoExpired(true)
-					.accountLocked(false)
+					.accountNoLocked(false)
 					.credentialNoExpired(true)
 					.roles(Set.of(roleUser))
 					.createdDate(LocalDateTime.now())
