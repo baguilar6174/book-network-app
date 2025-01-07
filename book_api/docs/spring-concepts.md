@@ -662,3 +662,165 @@ You can create a scope for a specific use case, such as a database transaction s
 2. **Use `prototype` scope** for stateful beans or beans with a short lifecycle.
 3. **Web scopes (`request`, `session`, `application`)** should only be used in web applications.
 4. Avoid using `prototype` scope for beans injected into `singleton` beans, as it can cause unexpected behavior without proxies.
+
+## Special Beans
+
+### **Environment Bean**
+
+The **Environment** bean in Spring provides a way to access and manage properties, profiles, and environment variables in an application. It is used to retrieve configuration values or to adapt application behavior based on the environment (e.g., development, production).
+
+### **When to Use the Environment Bean?**
+
+1. **Accessing Properties**: Retrieve values from `application.properties` or `application.yml`.
+2. **Environment Variables**: Fetch system or environment variables.
+3. **Profile Management**: Determine or set the active Spring profile.
+4. **Best Practice**: Use `@Value` for simple property injection, and `Environment` for more dynamic or complex needs.
+
+**Example**
+
+`application.properties`
+
+```
+app.name=MySpringApp
+```
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
+@Component
+public class AppConfig {
+    private final Environment environment;
+
+    @Autowired
+    public AppConfig(Environment environment) {
+        this.environment = environment;
+    }
+
+    public void printAppName() {
+        String appName = environment.getProperty("app.name");
+        System.out.println("Application Name: " + appName);
+    }
+}
+```
+
+```java
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class MainApp {
+    public static void main(String[] args) {
+        var context = new AnnotationConfigApplicationContext("com.example");
+        AppConfig appConfig = context.getBean(AppConfig.class);
+        appConfig.printAppName(); // Output: Application Name: MySpringApp
+    }
+}
+```
+
+### **Profile Bean**
+
+The **Profile Bean** is a mechanism to define and load specific beans based on the active application profile (e.g., `dev`, `test`, `prod`). It helps to customize configurations for different environments.
+
+**When to Use?**
+
+1. **Environment-Specific Beans**: Define beans for different environments, such as development, testing, or production.
+2. **Simplify Configuration**: Activate only the beans relevant to the current profile, avoiding unnecessary resource initialization.
+
+**Example**
+
+`application.properties`:
+
+```
+spring.profiles.active=dev
+```
+
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
+interface DataSource {
+    String getConnectionDetails();
+}
+
+class DevDataSource implements DataSource {
+    public String getConnectionDetails() {
+        return "Connected to DEV database";
+    }
+}
+
+class ProdDataSource implements DataSource {
+    public String getConnectionDetails() {
+        return "Connected to PROD database";
+    }
+}
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    @Profile("dev")
+    public DataSource devDataSource() {
+        return new DevDataSource();
+    }
+
+    @Bean
+    @Profile("prod")
+    public DataSource prodDataSource() {
+        return new ProdDataSource();
+    }
+}
+
+```
+
+```java
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class MainApp {
+    public static void main(String[] args) {
+        var context = new AnnotationConfigApplicationContext(AppConfig.class);
+        DataSource dataSource = context.getBean(DataSource.class);
+        System.out.println(dataSource.getConnectionDetails()); // Output: Connected to DEV database
+    }
+}
+
+```
+
+## @Value annotation
+
+Is used in Spring to inject values into fields, method parameters, or constructor arguments. These values can come from property files, environment variables, or hard-coded expressions.
+
+**When to Use @Value?**
+
+1. **Property Injection**: Inject configuration values from `application.properties` or `application.yml`.
+2. **Environment Variables**: Use system-level or environment-specific variables.
+3. **Default Values**: Provide fallback values if a property is missing.
+
+**Example**
+
+`application.properties`:
+
+```
+app.name=MySpringApp
+app.version=1.0
+```
+
+```java
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class AppConfig {
+
+    @Value("${app.name}")
+    private String appName;
+
+    @Value("${app.version:1.0}")
+    private String appVersion; // Default value is "1.0" if the property is missing
+
+    public void printAppDetails() {
+        System.out.println("App Name: " + appName);
+        System.out.println("App Version: " + appVersion);
+    }
+}
+```
